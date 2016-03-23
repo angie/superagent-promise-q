@@ -1,8 +1,8 @@
 /**
- * Promise wrapper for superagent
+ * Promise wrapper for superagent using Q
  */
 
-function wrap(superagent, Promise) {
+function wrap(superagent, Q) {
   /**
    * Request object similar to superagent.Request, but with end() returning
    * a promise.
@@ -16,39 +16,37 @@ function wrap(superagent, Promise) {
 
   /** Send request and get a promise that `end` was emitted */
   PromiseRequest.prototype.end = function(cb) {
+    var deferred = Q.defer();
     var _end = superagent.Request.prototype.end;
     var self = this;
 
-    return new Promise(function(accept, reject) {
-      _end.call(self, function(err, response) {
-        if (cb) {
-          cb(err, response);
-        }
+    _end.call(self, function(err, response) {
+      if (cb) {
+        cb(err, response);
+      }
 
-        if (err) {
-          err.response = response;
-          reject(err);
-        } else {
-          accept(response);
-        }
-      });
+      if (err) {
+        err.response = response;
+        deferred.reject(err);
+      } else {
+        deferred.resolve(response);
+      }
     });
   };
 
   /** Provide a more promise-y interface */
   PromiseRequest.prototype.then = function(resolve, reject) {
+    var deferred = Q.defer();
     var _end = superagent.Request.prototype.end;
     var self = this;
 
-    return new Promise(function(accept, reject) {
-      _end.call(self, function(err, response) {
-        if (err) {
-          err.response = response;
-          reject(err);
-        } else {
-          accept(response);
-        }
-      });
+    _end.call(self, function(err, response) {
+      if (err) {
+        err.response = response;
+        deferred.reject(err);
+      } else {
+        deferred.resolve(response);
+      }
     }).then(resolve, reject);
   };
 

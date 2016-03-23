@@ -1,7 +1,7 @@
 {
-  "name": "superagent-promise",
+  "name": "superagent-q",
   "version": "1.1.0",
-  "description": "superagent promise wrapper",
+  "description": "superagent promise wrapper with Q",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha test/*.spec.js",
@@ -9,22 +9,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/lightsofapollo/superagent-promise.git"
+    "url": "git://github.com/angie/superagent-q.git"
   },
   "keywords": [
     "superagent",
     "promise",
     "http"
   ],
-  "author": "James Lal [:lightsofapollo]",
+  "author": "Angie Merryweather [:angie]",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lightsofapollo/superagent-promise/issues"
+    "url": "https://github.com/angie/superagent-q/issues"
   },
   "devDependencies": {
     "chai": "^2.3.0",
     "debug": "2.2.0",
-    "es6-promise": "^2.1.1",
+    "q": ">= 1.4.1",
     "mocha": "^2.2.5",
     "superagent": ">= 1.2.0",
     "superagent-mock": "^1.3.0"
